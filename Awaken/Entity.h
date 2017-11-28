@@ -12,15 +12,13 @@
 class Entity
 {
 public:
-	virtual void init(const glm::vec2& position,
-		const glm::vec2& drawDims,
-		glm::vec2& collisionDims,
-		PolyEngine::ColorRGBA8 tint = PolyEngine::ColorRGBA8(255, 255, 255, 255)) = 0;
+	Entity();
 
-	virtual void update() = 0;
+	virtual void update();
 	virtual void draw(PolyEngine::SpriteBatch& spriteBatch);
 
-protected:
+	Entity* clone();
+
 	glm::vec2 m_position, m_direction, m_drawDims, m_collisionsDims;
 	
 	float m_speed;

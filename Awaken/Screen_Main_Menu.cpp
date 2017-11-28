@@ -51,7 +51,13 @@ void Screen_Main_Menu::onEntry()
 	m_camera.setScale(1.0f);
 	m_camera.setPosition(glm::vec2(0.0f, 0.0f));
 
-	testEntity->init(glm::vec2(0), glm::vec2(10), glm::vec2(10));
+	m_planet.registerEntity<ENTITY_TEST>("TEST_ENTITY");
+
+	m_planet.spawnEntity("TEST_ENTITY", glm::vec2(0), glm::vec2(10), glm::vec2(10));
+	m_planet.spawnEntity("TEST_ENTITY", glm::vec2(10), glm::vec2(10), glm::vec2(10));
+	m_planet.spawnEntity("TEST_ENTITY", glm::vec2(20), glm::vec2(10), glm::vec2(10));
+
+	//testEntity->init(glm::vec2(0), glm::vec2(10), glm::vec2(10));
 }
 
 void Screen_Main_Menu::onExit()
@@ -61,8 +67,8 @@ void Screen_Main_Menu::onExit()
 void Screen_Main_Menu::update()
 {
 	m_camera.update();
-
 	checkInput();
+	m_planet.update();
 }
 
 void Screen_Main_Menu::draw()
@@ -85,7 +91,7 @@ void Screen_Main_Menu::draw()
 	// Add items to spritebatch to be rendered
 	m_spriteBatch.begin();
 
-	testEntity->draw(m_spriteBatch);
+	m_planet.render(m_spriteBatch);
 
 	m_spriteBatch.end();
 	m_spriteBatch.renderBatch();

@@ -9,6 +9,7 @@
 #include <PolyEngine\SpriteBatch.h>
 #include <PolyEngine\SpriteFont.h>
 
+#include "Planet.h"
 #include "ENTITY_TEST.h"
 
 class Screen_Main_Menu : public PolyEngine::IGameScreen
@@ -27,8 +28,6 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 
-	ENTITY_TEST* testEntity = new ENTITY_TEST();
-
 private:
 	void checkInput();
 
@@ -39,5 +38,7 @@ private:
 	PolyEngine::SpriteBatch m_spriteBatch;
 	PolyEngine::SpriteBatch m_textSpriteBatch;
 	PolyEngine::SpriteFont* m_spriteFont;
+
+	Planet m_planet;
 };
 
