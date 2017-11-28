@@ -18,18 +18,22 @@ Entity* Planet::spawnEntity(std::string key,
 	glm::vec2& collisionDims,
 	PolyEngine::ColorRGBA8 tint)
 {
-	Entity* cloned = m_registeredEntities[key];
+	try {
+		Entity* cloned = m_registeredEntities.at(key);
+		Entity* t = cloned->clone();
+		t->m_position = position;
+		t->m_drawDims = drawDims;
+		t->m_collisionsDims = collisionDims;
+		t->m_tint = tint;
+		t->m_texture = cloned->m_texture;
+		t->m_cameraPointer = cloned->m_cameraPointer;
 
-	Entity* t = cloned->clone();
-	t->m_position = position;
-	t->m_drawDims = drawDims;
-	t->m_collisionsDims = collisionDims;
-	t->m_tint = tint;
-	t->m_texture = cloned->m_texture;
-	t->m_cameraPointer = cloned->m_cameraPointer;
-
-	m_entities.push_back(t);
-	return t;
+		m_entities.push_back(t);
+		return t;
+	} catch(...) {
+		printf_s("Unable to spawn [%s], %s is not a registered entity.\n", key.c_str(), key.c_str());
+		return nullptr;
+	}
 }
 
 void Planet::update()
