@@ -1,5 +1,7 @@
 #include "Screen_Main_Menu.h"
 
+#include <iostream>
+
 #include <PolyEngine\IMainGame.h>
 #include <PolyEngine\Command.h>
 
@@ -48,7 +50,7 @@ void Screen_Main_Menu::onEntry()
 
 	// Init camera
 	m_camera.init(m_window->getScreenWidth(), m_window->getScreenHeight());
-	m_camera.setScale(1.0f);
+	m_camera.setScale(4.0f);
 	m_camera.setPosition(glm::vec2(0.0f, 0.0f));
 
 	m_planet.registerEntity<ENTITY_TEST>("TEST_ENTITY");
@@ -58,6 +60,27 @@ void Screen_Main_Menu::onEntry()
 	m_planet.spawnEntity("TEST_ENTITY", glm::vec2(20), glm::vec2(10), glm::vec2(10));
 
 	//testEntity->init(glm::vec2(0), glm::vec2(10), glm::vec2(10));
+
+
+	/////////////////////////////////////////////
+	//                                         //
+	//             DEFINE COMMANDS             //
+	//                                         //
+	/////////////////////////////////////////////
+
+	Command* spawnCommand = new Command([this](std::vector<std::string> args) { // Definite memory leak when switching windows
+		if (args.size() == 7) {
+			m_planet.spawnEntity(args[0], glm::vec2(atoi(args[1].c_str()), atoi(args[2].c_str())), glm::vec2(atoi(args[3].c_str()), atoi(args[4].c_str())), glm::vec2(atoi(args[5].c_str()), atoi(args[6].c_str())));
+		}
+		else {
+			std::cout << "Incorrect use of command!\n";
+		}
+
+	});
+
+
+	// Add commands to registry
+	m_game->addCommand("spawn", spawnCommand);
 }
 
 void Screen_Main_Menu::onExit()

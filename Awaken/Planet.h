@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include <PolyEngine\SpriteBatch.h>
 
@@ -17,7 +18,7 @@ public:
 	template<class T>
 	void registerEntity(std::string key)
 	{
-		m_registeredEntities[key] = new T();
+		m_registeredEntities[make_lowercase(key)] = new T();
 	}
 
 	Entity* spawnEntity(std::string key, 
@@ -29,6 +30,14 @@ public:
 	void init();
 	void update();
 	void render(PolyEngine::SpriteBatch& spriteBatch);
+
+	std::string make_lowercase(const std::string& in)
+	{
+		std::string out;
+
+		std::transform(in.begin(), in.end(), std::back_inserter(out), ::tolower);
+		return out;
+	}
 
 private:
 	std::map<std::string, Entity*> m_registeredEntities;
